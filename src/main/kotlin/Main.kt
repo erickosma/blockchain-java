@@ -1,6 +1,7 @@
 
-class Main
 
-fun main(args: Array<String>) {
-    println("teste")
+fun main() {
+    Timer.stat()
+    Worker.run()
+    Timer.end()
 }
