@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets
 
 class Blockchain(
     private val chain: MutableList<Block> = mutableListOf(),
-    private val nonce: Int = 4 //difficulty
+    private val nonce: Int = 1 //difficulty
 ) {
 
     init {
@@ -19,9 +19,17 @@ class Blockchain(
     }
 
     fun getPreviousBlock(): Block {
-        return chain[this.getChainLength() - 1]
+        return chain[getChainLength() - 1]
     }
 
+    /**
+     *  Responsável por encontrar uma prova de trabalho válida.
+     * Ela recebe uma prova anterior e gera uma nova prova incrementando um valor até encontrar um
+     * hash que atenda aos critérios definidos pela função subStrCount.
+     * Essa função verifica se o hash tem um determinado número de zeros no início,
+     * com base na dificuldade definida pelo nonce.
+     *
+     */
     fun proofOfWork(previousProof: Long): Long {
         var newProof = 1L
         var checkProof = false
@@ -57,9 +65,13 @@ class Blockchain(
         (newProof * 2) * 2 - (previousProof * 2) * 2
 
     private fun getChainLength(): Int {
-        return this.chain.size
+        return chain.size
     }
 
+    /**
+     *  verifica a validade da cadeia. Ela percorre a cadeia verificando se o hash do
+     *  bloco anterior corresponde ao hash registrado no bloco atual e se a prova de trabalho é válida
+     */
     fun isValid(): Boolean {
         var previousBlock = chain.first()
         var blockIndex = 1
@@ -67,7 +79,7 @@ class Blockchain(
 
         while (blockIndex < chainLength) {
             val block = chain[blockIndex]
-            if (block.previousHash != this.hash(previousBlock)) {
+            if (block.previousHash != hash(previousBlock)) {
                 return false
             }
 

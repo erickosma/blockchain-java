@@ -8,6 +8,7 @@ object Worker {
         generateNewBlocks(blockChain)
         generateNewBlocks(blockChain)
         generateNewBlocks(blockChain)
+        generateNewBlocks(blockChain)
     }
 
     private fun generate(blockChain: Blockchain): Block {
@@ -18,7 +19,7 @@ object Worker {
         return blockChain.createBlock(proofWork, previousHash)
     }
 
-    private fun generateNewBlocks(blockChain: Blockchain){
+    fun generateNewBlocks(blockChain: Blockchain){
         val block = generate(blockChain)
         println("--- New Block has been created --- ")
         println("Index:  ${block.index} ")
