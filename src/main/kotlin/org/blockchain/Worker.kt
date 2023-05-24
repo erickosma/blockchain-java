@@ -1,13 +1,16 @@
+import org.blockchain.Block
+import org.blockchain.Blockchain
+
 object Worker {
 
     fun run() {
         val blockChain = Blockchain()
-        generateAllBlocks(blockChain)
-        generateAllBlocks(blockChain)
-        generateAllBlocks(blockChain)
+        generateNewBlocks(blockChain)
+        generateNewBlocks(blockChain)
+        generateNewBlocks(blockChain)
     }
 
-    fun generate(blockChain: Blockchain): Block {
+    private fun generate(blockChain: Blockchain): Block {
         val previousBlock: Block = blockChain.getPreviousBlock()
         val previousProof = previousBlock.proof
         val proofWork = blockChain.proofOfWork(previousProof)
@@ -15,7 +18,7 @@ object Worker {
         return blockChain.createBlock(proofWork, previousHash)
     }
 
-    fun generateAllBlocks(blockChain: Blockchain){
+    private fun generateNewBlocks(blockChain: Blockchain){
         val block = generate(blockChain)
         println("--- New Block has been created --- ")
         println("Index:  ${block.index} ")

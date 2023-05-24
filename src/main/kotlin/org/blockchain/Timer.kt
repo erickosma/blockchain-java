@@ -10,6 +10,8 @@ object Timer {
     fun end(){
         stopTime = System.currentTimeMillis()
         elapsedTimeInSecond = (stopTime - startTime)
+
+        println("-----------------------------------------")
         println("$elapsedTimeInSecond ml")
     }
 }

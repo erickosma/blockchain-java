@@ -1,9 +1,11 @@
+package org.blockchain
+
 import com.google.common.hash.Hashing
 import java.nio.charset.StandardCharsets
 
 class Blockchain(
     private val chain: MutableList<Block> = mutableListOf(),
-    private val difficulty: Int = 4
+    private val nonce: Int = 4 //difficulty
 ) {
 
     init {
@@ -12,12 +14,12 @@ class Blockchain(
 
     fun createBlock(proof: Long, previousHash: String): Block {
         val block = Block(index = getChainLength() + 1, proof = proof, previousHash = previousHash)
-        this.chain.add(block)
+        chain.add(block)
         return block
     }
 
     fun getPreviousBlock(): Block {
-        return this.chain[this.getChainLength() - 1]
+        return chain[this.getChainLength() - 1]
     }
 
     fun proofOfWork(previousProof: Long): Long {
@@ -36,7 +38,7 @@ class Blockchain(
     }
 
     private fun subStrCount(hashOperation: String) =
-        ("0".repeat(difficulty)) == hashOperation.substring(0, difficulty)
+        ("0".repeat(nonce)) == hashOperation.substring(0, nonce)
 
     fun hash(block: Block): String {
         return Hashing.sha256()
@@ -59,9 +61,9 @@ class Blockchain(
     }
 
     fun isValid(): Boolean {
-        var previousBlock = this.chain.first()
+        var previousBlock = chain.first()
         var blockIndex = 1
-        val chainLength = this.chain.size
+        val chainLength = chain.size
 
         while (blockIndex < chainLength) {
             val block = chain[blockIndex]
